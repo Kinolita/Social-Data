@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 
 PATH = Path(__file__).resolve().parents[0] / 'data'
+CONTINENTS = ['World', 'Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Antarctica']
 
 def get_continent(iso, countries):
     if iso in countries.index.to_list():
@@ -26,4 +27,5 @@ def data_loader():
 def label_loader():
     df_energy_labels = pd.read_csv('https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-codebook.csv', index_col=0)
     df_co2_labels = pd.read_csv('https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-codebook.csv', index_col=0)
-    return df_co2_labels, df_energy_labels
+    labels = pd.concat([df_energy_labels, df_co2_labels])
+    return labels.drop_duplicates()
