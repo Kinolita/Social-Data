@@ -5,5 +5,4 @@ seaborn
 backend
 utils
 numpy
-pathlib
 plotly
