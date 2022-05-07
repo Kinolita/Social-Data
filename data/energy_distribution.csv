@@ -1,0 +1,37 @@
+﻿parents,labels,ids,share
+NaN,Energy,Energy,73.2
+NaN,"Agri, Forestry,<br>Land Use","Agriculture, Forestry & Land Use",18.4
+NaN,Waste,Waste,3.2
+NaN,Industry,Industry,5.2
+Energy,Transport,Transport,16.2
+Energy,Energy in buildings,Energy in buildings,17.5
+Energy,Energy in industry,Energy in industry,24.2
+Energy,Fugitive emissions<br>from energy,Fugitive emissions from energy,5.8
+Energy,Energy in Agri & Fishing,Energy in Agri & Fishing,1.7
+Energy,Unallocated<br>fuel combustion,Unallocated fuel combustion,7.8
+Transport,Road,Road,11.9
+Transport,Aviation,Aviation,1.9
+Transport,Rail,Rail,0.4
+Transport,Pipeline,Pipeline,0.3
+Transport,Ship,Ship,1.7
+Energy in buildings,Residential,Residential,10.9
+Energy in buildings,Commercial,Commercial,6.6
+Energy in industry,Iron & Steel,Iron & Steel,7.2
+Energy in industry,Non-ferous metals,Non-ferous metals,0.7
+Energy in industry,Machinery,Machinery,0.5
+Energy in industry,Food and tobacco,Food and tobacco,1
+Energy in industry,"Paper, pulp & printing","Paper, pulp & printing",0.6
+Energy in industry,Chemical & petrochemical,Chemical & petrochemical (industry),3.6
+Energy in industry,Other industry,Other industry,10.6
+Industry,Cement,Cement,3
+Industry,Chemical,Chemical & petrochemical,2.2
+"Agriculture, Forestry & Land Use",Livestock & Manure,Livestock & Manure,5.8
+"Agriculture, Forestry & Land Use",Rice Cultivation,Rice Cultivation,1.3
+"Agriculture, Forestry & Land Use",Agricultural Soils,Agricultural Soils,4.1
+"Agriculture, Forestry & Land Use",Crop Burning,Crop Burning,3.5
+"Agriculture, Forestry & Land Use",Deforestation,Deforestation,2.2
+"Agriculture, Forestry & Land Use",Cropland,Cropland,1.4
+"Agriculture, Forestry & Land Use",Grassland,Grassland,0.1
+Waste,Landfills,Landfills,1.9
+Waste,Wastewater,Wastewater,1.3
+,,,
