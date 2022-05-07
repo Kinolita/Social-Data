@@ -31,18 +31,22 @@ with st.container():
         col2.header('Geo-Scatterplot')
 
     with col3:
-        countries_selected = st.multiselect('select country', list(df['country'].unique()), default=['World'])
+        defaults = df[['country', 'year', y_selected]].dropna()
+        max_year = defaults['year'].max()
+        defaults = defaults[defaults['year'] == max_year].sort_values(y_selected, ascending=False).head(7)
+        defaults = list(defaults['country'].values) + ['World']
+        countries_selected = st.multiselect('select country', list(df['country'].unique()), default=defaults)
 
     col_p1, col_p2, col_p3 = st.columns([2, 2, 2])
 
     with col_p1:
-        create_scatter_plot(df, LABELS, x=x_selected, y=y_selected)
+        create_scatter_plot(df, x=x_selected, y=y_selected)
 
     with col_p2:
-        choropleth_plot(df, LABELS, y=y_selected)
+        choropleth_plot(df, y=y_selected)
 
     with col_p3:
-        create_line_plot(df, LABELS, y=y_selected, country_filt=countries_selected)
+        create_line_plot(df, y=y_selected, country_filt=countries_selected)
 
 
     col_p1, col_p2, col_p3 = st.columns([2, 2, 2])
@@ -50,7 +54,8 @@ with st.container():
     with col_p1:
         create_line_plot2(df_co2)
 
-
+    with col_p2:
+        create_tree_plot(df, x=x_selected, y=y_selected)
 
 
 
