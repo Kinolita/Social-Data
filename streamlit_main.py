@@ -38,15 +38,6 @@ with st.container():
     with col_t2:
         st.write("> Source of CO2 emissions in %")
 
-with st.container():
-    col_t1, col_t2 = st.columns([3,2])
-
-    with col_t1:
-        be.create_emission_pie()
-
-    with col_t2:
-        st.write("> Source of CO2 emissions in %")
-
 
 with st.container():
     col_t1, col_t2 = st.columns([2, 3])
