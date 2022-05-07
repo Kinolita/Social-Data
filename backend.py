@@ -1,12 +1,13 @@
 import numpy as np
 import plotly.express as px
-from utils import *
+import utils as utils
+#from utils import *
 import streamlit
 import plotly.graph_objects as go
 
 COLS = ['trade_co2', 'cement_co2', 'coal_co2', 'flaring_co2', 'gas_co2', 'oil_co2', 'other_industry_co2', 'year']
 
-LABELS = label_loader()
+LABELS = utils.label_loader()
 MIN_YEAR = 2010
 
 def get_last_frame(fig):
@@ -41,7 +42,7 @@ def create_scatter_plot(df, x, y, labels=LABELS, year_min=MIN_YEAR):
         log_x=True, log_y=True,
         hover_name='country',
         animation_frame='year',
-        title=f"{get_label(labels, y)} <br>vs {get_label(labels, x)}"
+        title=f"{utils.get_label(labels, y)} <br>vs {utils.get_label(labels, x)}"
     )
 
     fig = get_last_frame(fig)
