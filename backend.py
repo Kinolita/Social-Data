@@ -63,7 +63,7 @@ def choropleth_plot(df, y, labels=LABELS, year_min=MIN_YEAR):
     )
 
     fig.update_layout(
-        title_text=get_label(labels, y),
+        title_text=utils.get_label(labels, y),
         geo=dict(
             showframe=False,
             showcoastlines=False,
