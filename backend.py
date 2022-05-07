@@ -83,7 +83,7 @@ def create_scattermap_plot(df, x, y, labels, year_min=MIN_YEAR):
     _df = _df[_df['year'] >= year_min]
     _df.dropna(inplace=True)
     fig = px.scatter_geo(_df.sort_values('year'), color=y, size_max=30, locations='iso_code', locationmode='ISO-3',
-                     title=f"{get_label(labels, y)}", hover_name='country', animation_frame='year', width=1024, height=500, fitbounds='locations')
+                     title=f"{utils.get_label(labels, y)}", hover_name='country', animation_frame='year', width=1024, height=500, fitbounds='locations')
 
 
 
@@ -94,7 +94,7 @@ def create_line_plot(df, y='co2_per_capita', labels=LABELS, year_min=MIN_YEAR, c
     _df = df.query(f"country in {country_filt}")#[[y, x, 'country']]
     _df = _df[_df['year'] >= year_min]
     #_df.dropna(inplace=True)
-    fig = px.line(_df.sort_values(['year', y], ascending=False), x='year', y=y, color='country', title=get_label(labels, y))
+    fig = px.line(_df.sort_values(['year', y], ascending=False), x='year', y=y, color='country', title=utils.get_label(labels, y))
 
 
     #fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
