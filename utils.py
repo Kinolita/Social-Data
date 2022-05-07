@@ -27,5 +27,5 @@ def data_loader():
 def label_loader():
     df_energy_labels = pd.read_csv('https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-codebook.csv', index_col=0)
     df_co2_labels = pd.read_csv('https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-codebook.csv', index_col=0)
-    labels = pd.concat([df_energy_labels, df_co2_labels])
-    return labels.drop_duplicates()
+    labels = pd.concat([df_energy_labels, df_co2_labels]).reset_index().drop_duplicates('column')
+    return labels.set_index('column')
