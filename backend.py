@@ -90,7 +90,7 @@ def create_scattermap_plot(df, x, y, labels, year_min=MIN_YEAR):
     return streamlit.plotly_chart(format_labels(fig), use_container_width=True)
 
 
-def create_line_plot(df, y='co2_per_capita', labels=LABELS, year_min=MIN_YEAR, country_filt=CONTINENTS):
+def create_line_plot(df, y='co2_per_capita', labels=LABELS, year_min=MIN_YEAR, country_filt=utils.CONTINENTS):
     _df = df.query(f"country in {country_filt}")#[[y, x, 'country']]
     _df = _df[_df['year'] >= year_min]
     #_df.dropna(inplace=True)
