@@ -10,6 +10,9 @@ import utils as utils
 st.title('Welcome to the project website for the course Social graphs and interactions (02805)')
 st.subheader('Made by Adrienne, Usama, and Ferenc')
 
+st.write('With the reduction of rainforests and the ozone layer and the increasingly drastic changes in our climate, the world found it important to create an international treaty in 2016 called the Paris Agreement. This agreement, which was adopted by 196 countries, aims to limit global warming by controlling and reducing greenhouse gas emissions as soon as possible. While the actions and progress of each country are not required to be transparent until 2024, low and zero-carbon solutions and carbon neutrality targets are becoming much more common. But while it appears that countries are making an effort to honor the agreements and work towards carbon neutrality, what is the actual progress to date?')
+st.write("Visulization or table here for the countries? idk")
+
 with st.expander("Webpage parameters", expanded=True):
     colx, coly, col2, col3 = st.columns([1, 1, 2, 2])
 
@@ -29,8 +32,9 @@ with st.expander("Webpage parameters", expanded=True):
 
 st.write("##")
 
+st.write("Below we take a look at the distribution of co2 emissions as it was in 2016. Emissions can be broken into three major categories of impact: industry, buildings, and transport.")
 with st.container():
-    col_t1, col_t2 = st.columns([3, 2])
+    col_t1, col_t2 = st.columns([2, 1])
 
     with col_t1:
         be.create_emission_pie()
@@ -40,7 +44,7 @@ with st.container():
 
 
 with st.container():
-    col_t1, col_t2 = st.columns([2, 3])
+    col_t1, col_t2 = st.columns([1, 2])
     x = 'fossil_share_energy'
     y = 'co2'
     with col_t1:
@@ -53,7 +57,7 @@ with st.container():
 
 
 
-    colx, coly, col2, col3 = st.columns([1, 1, 1, 1])
+    col2, col3 = st.columns(2)
     #
     with col2:
         col2.header('Geo-Scatterplot')
@@ -61,7 +65,7 @@ with st.container():
     with col3:
         countries_selected = st.multiselect('select country', list(be.df['country'].unique()), default=['World'])
 
-    col_p1, col_p2, col_p3 = st.columns([2, 2, 2])
+    col_p1, col_p2, col_p3 = st.columns(3)
 
     with col_p1:
         be.create_scatter_plot(x=x_selected, y=y_selected)
@@ -73,9 +77,10 @@ with st.container():
         be.create_line_plot(y=y_selected, country_filt=countries_selected)
 
 
-    col_p1, col_p2, col_p3 = st.columns([2, 2, 2])
+    col_p1, col_p2, col_p3 = st.columns(3)
 
-    # with col_p1:
+    with col_p1:
+        pass
     #     be.create_line_plot2(df_co2)
 
     with col_p2:
