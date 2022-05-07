@@ -1,0 +1,9 @@
+pandas
+streamlit
+matplotlib
+seaborn
+backend
+utils
+numpy
+pathlib
+plotly
