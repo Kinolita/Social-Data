@@ -3,11 +3,13 @@ import streamlit
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
-from backend import *
-from utils import *
+import utils as utils
+import backend as backend
+#from backend import *
+#from utils import *
 
-df_co2, df_en, df_temp = data_loader()
-LABELS = label_loader()
+df_co2, df_en, df_temp = utils.data_loader()
+LABELS = utils.label_loader()
 df = pd.merge(df_en, df_co2.drop(['gdp', 'population', 'continent', 'country'], axis=1), on=['iso_code', 'year'])
 st.set_page_config(page_title="SocialData2022",layout='wide')
 
@@ -40,22 +42,22 @@ with st.container():
     col_p1, col_p2, col_p3 = st.columns([2, 2, 2])
 
     with col_p1:
-        create_scatter_plot(df, x=x_selected, y=y_selected)
+        backend.create_scatter_plot(df, x=x_selected, y=y_selected)
 
     with col_p2:
-        choropleth_plot(df, y=y_selected)
+        backend.choropleth_plot(df, y=y_selected)
 
     with col_p3:
-        create_line_plot(df, y=y_selected, country_filt=countries_selected)
+        backend.create_line_plot(df, y=y_selected, country_filt=countries_selected)
 
 
     col_p1, col_p2, col_p3 = st.columns([2, 2, 2])
 
     with col_p1:
-        create_line_plot2(df_co2)
+        backend.create_line_plot2(df_co2)
 
     with col_p2:
-        create_tree_plot(df, x=x_selected, y=y_selected)
+        backend.create_tree_plot(df, x=x_selected, y=y_selected)
 
 
 
@@ -64,10 +66,10 @@ with st.container():
 
 
     # with col_p2:
-    #     create_scattermap_plot(df_co2, y=y_selected)
+    #     backend.create_scattermap_plot(df_co2, y=y_selected)
 
     # with col_p3:
-    #     create_line_plot(df_co2, y=y_selected, country_filt=countries_selected)
+    #     backend.create_line_plot(df_co2, y=y_selected, country_filt=countries_selected)
     """
     Speaking about roller coaster rides… The Friends viewers have also been on a bit of a ride.
     The episode with the lowest overall sentiment was Episode 1 in Season 4: _The one with the Jellyfish_, as you probably remember.
