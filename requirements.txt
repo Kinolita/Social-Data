@@ -6,3 +6,4 @@ backend
 utils
 numpy
 plotly
+beautifulsoup4
