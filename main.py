@@ -7,6 +7,7 @@ import backend as be
 import utils as utils
 
 
+
 st.title('Welcome to the project website for the course Social graphs and interactions (02805)')
 st.subheader('Made by Adrienne, Usama, and Ferenc')
 
@@ -44,6 +45,7 @@ with st.container():
         be.create_line_plot(y=y_selected, country_filt=countries_selected)
 
 
+
     col_p1, col_p2, col_p3 = st.columns([2, 2, 2])
 
     # with col_p1:
@@ -51,6 +53,7 @@ with st.container():
 
     with col_p2:
         be.create_tree_plot(x='fossil_share_energy', y='co2')
+
 
     with col_p3:
         be.create_lineplot_change(y=y_selected, current_year=2020, window_size=10)
@@ -63,10 +66,10 @@ with st.container():
         be.create_emission_pie()
 
     # with col_p2:
-    #     create_scattermap_plot(df_co2, y=y_selected)
+    #     backend.create_scattermap_plot(df_co2, y=y_selected)
 
     # with col_p3:
-    #     create_line_plot(df_co2, y=y_selected, country_filt=countries_selected)
+    #     backend.create_line_plot(df_co2, y=y_selected, country_filt=countries_selected)
     """
     Speaking about roller coaster rides… The Friends viewers have also been on a bit of a ride.
     The episode with the lowest overall sentiment was Episode 1 in Season 4: _The one with the Jellyfish_, as you probably remember.

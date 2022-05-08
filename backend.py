@@ -8,6 +8,7 @@ import pandas as pd
 LABELS = utils.label_loader()
 CONTINENTS = ['World', 'Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Antarctica']
 COLS = ['trade_co2', 'cement_co2', 'coal_co2', 'flaring_co2', 'gas_co2', 'oil_co2', 'other_industry_co2', 'year']
+
 MIN_YEAR = 2010
 
 
@@ -51,6 +52,7 @@ def create_scatter_plot(x, y, year_min=MIN_YEAR):
         hover_name='country',
         animation_frame='year',
         title=f"{utils.get_label(LABELS, y)} <br>vs {utils.get_label(LABELS, x)}"
+
     )
 
     fig = get_last_frame(fig)
@@ -72,6 +74,7 @@ def choropleth_plot(y, year_min=MIN_YEAR):
 
     fig.update_layout(
         title_text=utils.get_label(LABELS, y),
+
         geo=dict(
             showframe=False,
             showcoastlines=False,
@@ -95,6 +98,7 @@ def create_scattermap_plot(x, y, year_min=MIN_YEAR):
 
 
 
+
     return st.plotly_chart(format_labels(fig), use_container_width=True)
 
 
@@ -103,6 +107,7 @@ def create_line_plot(y='co2_per_capita', year_min=MIN_YEAR, country_filt=CONTINE
     _df = _df[_df['year'] >= year_min]
     #_df.dropna(inplace=True)
     fig = px.line(_df.sort_values(['year', y], ascending=False), x='year', y=y, color='country', title=utils.get_label(LABELS, y))
+
 
 
     #fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})

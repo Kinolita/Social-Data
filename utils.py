@@ -7,10 +7,6 @@ import streamlit as st
 
 PATH = Path(__file__).resolve().parents[0] / 'data'
 
-def add_empty_lines(nr_lines):
-    for i in range(nr_lines):
-        st.write("")
-
 def get_continent(iso, countries):
     if iso in countries.index.to_list():
         return countries.loc[iso, 'region']
@@ -42,11 +38,7 @@ def label_loader():
 
 
 
-def fix_values(string):
-    try:
-        return float(string.split('%')[0])
-    except Exception as e:
-        return np.nan
+
 
 def get_current_member_countries():
 
@@ -64,5 +56,4 @@ def get_current_member_countries():
     df['Date of signature'] = [x[2] if len(x) > 1 else 2016 for x in df['Date of signature']]
     df["Date of ratification, acceptance, approval, or accession"] = df['Date of ratification, acceptance, approval, or accession'].apply(lambda x: x.split(" ")[2][:4])
     df['Date of entry into force'] = df['Date of entry into force'].apply(lambda y: y.split(" ")[2][:4])
-    df["Percentage of greenhousegases for ratification"] = df["Percentage of greenhousegases for ratification"].apply(lambda x: fix_values(x))
     return df
