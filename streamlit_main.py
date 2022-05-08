@@ -26,9 +26,78 @@ with st.container():
 to create an international treaty in 2016 called the Paris Agreement. This agreement, which was adopted by 196 countries, aims to limit global 
 warming by controlling and reducing greenhouse gas emissions as soon as possible. While the actions and progress of each country are not required to 
 be transparent until 2024, low and zero-carbon solutions and carbon neutrality targets are becoming much more common. But while it appears that 
-countries are making an effort to honor the agreements and work towards carbon neutrality, what is the actual progress to date?"""
+countries are making an effort to honor the agreements and work towards carbon neutrality, what is the actual progress to date?
+"""
+"""
+In Europe and specifically Denmark we hear a lot about climate changes and how we as countries should
+strive towards drastically lowering our CO2 emissions. While there is a general concensus in the population -
+at least in Denmark - that this is a huge issue, we often are led to believe something else by our politicians.
+It can be very hard to fact check what politicians, global companies etc. are saying in regards to the climate,
+since their statements are often biased by their subjective goals. Because of that, this article will help
+create transparency towards how the actual situation and development have been in regards to lowering CO2 emissions
+and how far have we come. We provide the facts, but its up to you to interpret them!"""
 
-st.write("Visulization or table here for the countries? idk")
+with st.container():
+    col_t1, col_t2 = st.columns([2,1])
+
+    with col_t1:
+        be.create_emission_pie()
+
+    with col_t2:
+        util.add_empty_lines(8)
+        """
+        Here we can see the distribution of CO2 emissions in the world in 2016. 
+        The major source of greenhouse gasses is clearly in the energy sector with the main contributers of this being: industry, buildings, and transport.
+        You can try and click around to see what the different sectors consist of.
+        """    
+
+with st.container():
+    col_t1, col_t2 = st.columns([1, 2])
+    x = 'fossil_share_energy'
+    y = 'co2'
+    with col_t1:
+        """
+        If we take a look at the same emissions per country, we can see which ones are the largest contributers to this. 
+        Of course some countries will be larger contributers than others simply due to their industry levels or population. 
+        These countries will be under a natural spotlight to improve as they could also have the largest contribution to the reduction of 
+        global warming. This being said, they should not be expected to carry the responsibility of this for the entire world. Every little bit helps. 
+
+        Here we can see the amount of carbon dioxide emissions represented by sized boxes for each country and continent. 
+        The color of each box indicates how much of those emissions are the result of fossil fuels.
+        """
+        st.write(f">Size of the box: {utils.get_label(be.LABELS, y)}")
+        st.write(f">Coloring: {utils.get_label(be.LABELS, x)}")
+    with col_t2:
+        be.create_tree_plot(x=x, y=y)
+
+with st.container():
+    col2, col3 = st.columns(2)
+
+    with col2:
+        be.create_tree_plot(x=x, y="co2_per_capita")
+    with col3:
+        util.add_empty_lines(8)
+        """
+        If we take this same data and equalize the box sizes to emissions per capita we see a much different story 
+        where countries that don't necessarily have a large impact globally have a very large impact per citizen. 
+
+        It's important to keep this distinction in mind as it can be very relevant. 
+        Many politicians can be shown conflicting or misleading data which is then filtered out to the masses.
+        """
+
+with st.container():
+    col2, col3 = st.columns(2)
+
+    with col2:
+        util.add_empty_lines(8)
+        """
+        In this graph we can see the general trend of all the countries of the world in regards to their production 
+        of CO2 in tonnes per person. The world is highlighted, and while there have been both improvements and unimprovements in various countries,
+        it's clear to see that the general trend so far has not changed. This tells us that while countries may be beginning to implement their 
+        low and zero-carbon solutions we still have a long way to go before we see the fruits of our labor.
+        """
+    with col3:
+        be.create_lineplot_change(y="co2_per_capita", current_year=2020, window_size=10)
 
 with st.expander("Webpage parameters", expanded=True):
     colx, coly, col2, col3 = st.columns([1, 1, 2, 2])
@@ -46,46 +115,9 @@ with st.expander("Webpage parameters", expanded=True):
 
     with col3:
         y_selected = st.selectbox('y-axis:', list(be.df.columns), index=4)
-
-st.write("##")
-
-
 with st.container():
-    col_t1, col_t2 = st.columns([2,1])
-
-    with col_t1:
-        be.create_emission_pie()
-
-    with col_t2:
-        st.write("Here we can see the distribution of CO2 emissions in the world in 2016. The major contributors can be broken into three categories of impact: industry, buildings, and transport. Later on we will take a look at how these individual categories have progressed and where they stand today.")
-    
-
-with st.container():
-    col_t1, col_t2 = st.columns([1, 2])
-    x = 'fossil_share_energy'
-    y = 'co2'
-    with col_t1:
-        """
-        Of course some countries will be larger contributers of greenhouse gasses than others due to their industry level or population. 
-        These countries will be under a natural spotlight to imporve as they will have the largest contribution to the reduction of 
-        global warming but they should not be expected to carry the responsibility of this for the entire world. Every little bit helps. 
-        Here we can see the amount of carbon dioxide emissions represented by sized boxes for each country and continent. 
-        The color of each box indicates how much of those emissions are the result of fossil fuels.
-        """
-        st.write(f">Size of the box: {utils.get_label(be.LABELS, y)}")
-        st.write(f">Coloring: {utils.get_label(be.LABELS, x)}")
-    with col_t2:
-        be.create_tree_plot(x=x, y=y)
-
-
-    """
-    SOo..... From here we could look at the 3 categories (if possible to make visualizations of that) and see how they go renewable% wise from 2016 onwards.
-
-    """
-
-
     col2, col3 = st.columns(2)
-    
+           
     with col2:
         col2.header('Geo-Scatterplot')
 
@@ -103,15 +135,4 @@ with st.container():
     with col_p3:
         be.create_line_plot(y=y_selected, country_filt=countries_selected)
 
-
-    col_p1, col_p2, col_p3 = st.columns(3)
-
-    with col_p1:
-        pass
-    #     be.create_line_plot2(df_co2)
-
-    with col_p2:
-        pass
-    with col_p3:
-        be.create_lineplot_change(y=y_selected, current_year=2020, window_size=10)
 
