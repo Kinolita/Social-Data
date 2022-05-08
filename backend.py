@@ -12,10 +12,6 @@ COLS = ['trade_co2', 'cement_co2', 'coal_co2', 'flaring_co2', 'gas_co2', 'oil_co
 MIN_YEAR = 2010
 
 
-st.set_page_config(page_title="SocialData2022",layout='wide')
-
-
-
 df, df_temp, df_energy_dist = utils.data_loader()
 
 def get_last_frame(fig):
