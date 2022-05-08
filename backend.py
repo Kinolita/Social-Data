@@ -260,3 +260,15 @@ def create_tree_plot_window(x, y, year, window_size, hover, reverse=False):
     # )
     fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
     return st.plotly_chart(format_labels(fig), use_container_width=True)
+
+
+def create_energy_consumption_source():
+    _df = df[['year', 'biofuel_consumption', 'coal_consumption', 'country', 'gas_consumption', 'hydro_consumption', 'nuclear_consumption', 'oil_consumption', 'other_renewable_consumption', 'solar_consumption', 'wind_consumption']].dropna()
+    _df = _df[(_df['country'] != 'World') & (_df['country'] != 'World') & (_df['country'] != 'Asia Pacific') & (_df['country'] != 'OECD') & (_df['country'] != 'CIS') & (_df['country'] != 'Middle East') & (_df['country'] != 'Non-OECD')]
+    _df = _df.drop(['country'], axis=1)
+    _df = _df.groupby('year').sum().reset_index()
+    _df = pd.melt(_df, id_vars=['year'], value_vars=['biofuel_consumption', 'coal_consumption', 'gas_consumption', 'hydro_consumption', 'nuclear_consumption', 'oil_consumption', 'other_renewable_consumption', 'solar_consumption', 'wind_consumption'])
+    fig = px.area(_df, x="year", y="value", color="variable", line_group="variable")
+    fig.show()
+
+
