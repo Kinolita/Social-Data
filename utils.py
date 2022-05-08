@@ -7,6 +7,10 @@ import streamlit as st
 
 PATH = Path(__file__).resolve().parents[0] / 'data'
 
+def add_empty_lines(nr_lines):
+    for i in range(nr_lines):
+        st.write("")
+
 def get_continent(iso, countries):
     if iso in countries.index.to_list():
         return countries.loc[iso, 'region']
@@ -38,30 +42,27 @@ def label_loader():
 
 
 
+def fix_values(string):
+    try:
+        return float(string.split('%')[0])
+    except Exception as e:
+        return np.nan
 
-
-def get_current_members():
+def get_current_member_countries():
 
     url = 'https://en.wikipedia.org/wiki/List_of_parties_to_the_Paris_Agreement'
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'lxml')
-    table1 = soup.find("table", id="wikitable sortable")
-    print(table1)
-    data = []
-    for i in table1.find_all('td'):
-        title = i.text
-        data.append(title)
 
-    headers = data[:3]
-    new_data = pd.DataFrame(columns = headers)
-
-    for j in table1.find_all('tr')[1:]:
-        row_data = j.find_all('td')
-        row = [i.text for i in row_data]
-        length = len(new_data)
-        new_data.loc[length] = row
-
-    # new_data['Signature'] = [2016 for date in new_data['Signature']]
-    # new_data.rename(columns = {"Ratification, Acceptance(A), Approval(AA), Accession(a)": "Accepted", "Participant": "Country", "Signature": "Signed"}, inplace=True)
-    # new_data['Accepted'] = [date.strip().split(" ")[2] if len(date) > 1 else 2016 for date in new_data['Accepted']]
-    return new_data
+    table1 = soup.find("table", {"class": "wikitable"})
+    df=pd.read_html(str(table1))
+    df=pd.DataFrame(df[0])
+    df.rename(columns = {"Party[12]": "Country", "Percentage of greenhousegases for ratification[5]": "Percentage of greenhousegases for ratification"}, inplace= True)
+    df = df.iloc[:-1 , :]
+    df['Date of signature'] = [str(x) for x in df['Date of signature']]
+    df['Date of signature'] = [x.strip().split(" ") for x in df['Date of signature']]
+    df['Date of signature'] = [x[2] if len(x) > 1 else 2016 for x in df['Date of signature']]
+    df["Date of ratification, acceptance, approval, or accession"] = df['Date of ratification, acceptance, approval, or accession'].apply(lambda x: x.split(" ")[2][:4])
+    df['Date of entry into force'] = df['Date of entry into force'].apply(lambda y: y.split(" ")[2][:4])
+    df["Percentage of greenhousegases for ratification"] = df["Percentage of greenhousegases for ratification"].apply(lambda x: fix_values(x))
+    return df

@@ -128,7 +128,16 @@ def create_tree_plot(x, y):
                      color=x, hover_data=['iso_code'],
                      color_continuous_scale='RdBu_r',
                      )
-    fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+    fig.update_traces(hovertemplate='<b>%{label} </b> <br>Fossil Energy: %{color:.2f}% <br>CO2 per capita: %{value:.2f}') #
+
+    # fig.update_layout(
+    #     hoverlabel=dict(
+    #         bgcolor="white",
+    #         font_size=16,
+    #         font_family="Rockwell"
+    #     )
+    # )
+    fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
     return st.plotly_chart(format_labels(fig), use_container_width=True)
 
 
@@ -196,11 +205,58 @@ def create_emission_pie():
             colors=_df['share'],
             colorscale='RdBu_r',
             cmid=_df['share'].mean()),
-        hovertemplate='<b>%{label} </b> <br> Value: %{value:.2f}',
+        hovertemplate='<b>%{label}: %{value:.2f}%',
         hoverinfo="none"
     ))
 
     fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
     # fig.update_layout(uniformtext=dict(minsize=10, mode='hide'))
 
+    return st.plotly_chart(format_labels(fig), use_container_width=True)
+
+
+def create_paris_agreement_nations():
+    df = utils.get_current_member_countries()
+    fig = px.treemap(df, path=[px.Constant("world"), 'Country'], values="Percentage of greenhousegases for ratification",
+                     color_continuous_scale='RdBu_r',
+                     )
+    fig.update_traces(hovertemplate='<b>%{label} </b> <br>Fossil Energy: %{color:.2f}% <br>CO2 per capita: %{value:.2f}') #
+
+    # fig.update_layout(
+    #     hoverlabel=dict(
+    #         bgcolor="white",
+    #         font_size=16,
+    #         font_family="Rockwell"
+    #     )
+    # )
+    fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
+    return st.plotly_chart(format_labels(fig), use_container_width=True)
+
+
+def create_tree_plot_window(x, y, year, window_size, hover, reverse=False):
+    _df = df.query(f'year in {[year - window_size, year]}')[[y, x, 'iso_code', 'country', 'population', 'continent', 'gdp', 'renewables_energy_per_capita', 'year']].dropna()
+    _df.set_index(['continent', 'country'], inplace=True)
+
+    _df_old = _df[_df['year'] == year - window_size]
+    _df_now = _df[_df['year'] == year]
+
+    cmap = 'RdBu' if reverse else 'RdBu_r'
+    _df_now['change'] = _df_now[x] - _df_old[x]
+    _df_now['change_co2'] = _df_now[y] - _df_old[y]
+
+    print(_df_old)
+    print(_df_now)
+    fig = px.treemap(_df_now.reset_index(), path=[px.Constant('world'), 'continent', 'country'], values=y,
+                     color='change', color_continuous_scale=cmap,
+                     )
+    fig.update_traces(hovertemplate=hover) #
+
+    # fig.update_layout(
+    #     hoverlabel=dict(
+    #         bgcolor="white",
+    #         font_size=16,
+    #         font_family="Rockwell"
+    #     )
+    # )
+    fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
     return st.plotly_chart(format_labels(fig), use_container_width=True)
