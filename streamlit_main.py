@@ -44,7 +44,7 @@ with st.container():
         be.create_emission_pie()
 
     with col_t2:
-        util.add_empty_lines(8)
+        utils.add_empty_lines(8)
         """
         Here we can see the distribution of CO2 emissions in the world in 2016. 
         The major source of greenhouse gasses is clearly in the energy sector with the main contributers of this being: industry, buildings, and transport.
@@ -76,7 +76,7 @@ with st.container():
     with col2:
         be.create_tree_plot(x=x, y="co2_per_capita")
     with col3:
-        util.add_empty_lines(8)
+        utils.add_empty_lines(8)
         """
         If we take this same data and equalize the box sizes to emissions per capita we see a much different story 
         where countries that don't necessarily have a large impact globally have a very large impact per citizen. 
@@ -89,7 +89,7 @@ with st.container():
     col2, col3 = st.columns(2)
 
     with col2:
-        util.add_empty_lines(8)
+        utils.add_empty_lines(8)
         """
         In this graph we can see the general trend of all the countries of the world in regards to their production 
         of CO2 in tonnes per person. The world is highlighted, and while there have been both improvements and unimprovements in various countries,
