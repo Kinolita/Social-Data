@@ -58,6 +58,7 @@ def get_current_member_countries():
     df['Date of entry into force'] = df['Date of entry into force'].apply(lambda y: y.split(" ")[2][:4])
     return df
 
+
 def add_empty_lines(nr_lines):
     for i in range(nr_lines):
         st.write("")
