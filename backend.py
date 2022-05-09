@@ -23,19 +23,18 @@ def get_last_frame(fig):
 
 def plot_intro_plot():
     _df = df_temp[df_temp['Entity'] == 'Global']
-    fig = make_subplots(rows=1, cols=2, subplot_titles=("Median temperature anomaly", "Global CO2 emissions per Continent"))
+    fig = make_subplots(rows=1, cols=2, subplot_titles=("Average land-sea temperature anomaly relative to the 1961-1990 avg. temp.", "Global CO2 emissions per Continent"))
 
-    fig.add_trace(go.Scatter(x=_df['Year'], y=_df['Lower bound (95% CI)'], line=dict(color='royalblue', width=1, dash='dot'), name='Lower bound'), row=1, col=1)
     fig.add_trace(go.Line(x=_df['Year'], y=_df['Median temperature anomaly from 1961-1990 average'], name='Avg. Temp'), row=1, col=1)
-    fig.add_trace(go.Line(x=_df['Year'], y=_df['Upper bound (95% CI)'], line=dict(color='royalblue', width=1, dash='dot'), name='Upper bound'), row=1, col=1)
 
     _df2 = df.groupby(['continent','year']).sum()['co2'].reset_index()
     for continent in _df2['continent'].unique():
         __df = _df2.query(f'continent == "{continent}"')
         fig.add_trace(go.Scatter(x=__df['year'], y=__df['co2'], name=continent), row=1, col=2)
+
     fig.update_yaxes(title_text="Global average temperature", row=1, col=1)
     fig.update_yaxes(title_text="Emissions of CO2, in million tonnes", row=1, col=2)
-
+    fig.update_traces(hovertemplate="%{y}")
     fig.update_layout(showlegend=False)
 
     return st.plotly_chart(format_labels(fig), use_container_width=True)
