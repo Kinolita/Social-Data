@@ -25,29 +25,28 @@ with st.container():
 
 data1 = "https://github.com/owid/energy-data"
 data2 = "https://github.com/owid/co2-data"
-rep = "https://github.com/Kinolita/Social-Data.git"
+rep = "https://github.com/Kinolita/Social-Data"
 nb = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 st.write("Source 1: [Data on Energy by our World in Data](%s)" % data1)
 st.write("Source 2: [Data on CO2 and greenhouse gas emissions by Our World in Data](%s)" % data2)
-st.write("Links to our [repository](rep) and our [explainer notebook](nb).")
+st.write("Links to our [repository](%s) and our [explainer notebook](%s)." % (rep, nb))
 
 
-"""With the reduction of rainforests and the ozone layer and the increasingly drastic changes in our climate, the world found it important 
+"""
+With the reduction of rainforests and the ozone layer and the increasingly drastic changes in our climate, the world found it important 
 to create an international treaty in 2016 called the Paris Agreement. This agreement, which was adopted by 196 countries, aims to limit global 
 warming by controlling and reducing greenhouse gas emissions as soon as possible. While the actions and progress of each country are not required to 
 be transparent until 2024, low and zero-carbon solutions and carbon neutrality targets are becoming much more common. But while it appears that 
 countries are making an effort to honor the agreements and work towards carbon neutrality, what is the actual progress to date?
 """
 
-with st.container():
-    col_t1, col_t2 = st.columns([1,1])
+"""
+Below on the left, we can see the average change in temperature of the earth over the last two centuries and how it has risen consistently and significantly since 1980. 
+On the right we see a display of global CO2 emissions since 1900 by continent. 
+It is interesting to note that the rise in emissions coincides with the rise in global temperatures.
+"""
 
-    with col_t1:
-        """temperature rising"""
-
-    with col_t2:
-        """the other one"""
-
+be.plot_intro_plot()
 
 """
 In Europe and specifically Denmark we hear a lot about climate changes and how we as countries should
@@ -139,7 +138,7 @@ with st.container():
         """
 
 #Dashboard
-st.title('Try it yourself!')
+st.subheader('Try it yourself!')
 
 """
 At this point we have given a brief but thorough introduction to some of the data that can be found on CO2 emissions,
@@ -160,7 +159,7 @@ with st.expander("Webpage parameters", expanded=True):
 
     with coly:
         st.write(
-            "The window size tells the dashboard how many years to look back to.")
+            "The window size indicates how many years into the past to visualize.")
         window_size = list(range(1, 21))
         window_size = st.selectbox('Window size:', window_size, index=19)
 
@@ -168,20 +167,20 @@ with st.expander("Webpage parameters", expanded=True):
 #plotting the scatter plot model
 with st.container():
     st.subheader("Scatter Plot")
-    st.write("Scatter plots are great to visualize relationships. In this section you have the possibility to build custom scatterplots from our data, then visualize the yearly changes.")
+    st.write("Scatter plots are great to visualize relationships. Here you have the possibility to build custom scatterplots from our data, then visualize the yearly changes.")
 
     col1, col2, col3 = st.columns([1, 1, 3])
 
     with col1:
         utils.add_empty_lines(6)
-        x_selected = st.selectbox('x-axis:', list(be.df.columns)[3:], index=49)
+        x_selected = st.selectbox('X-axis:', list(be.df.columns)[3:], index=49)
         y_selected = st.selectbox(
-            'y-axis:', list(be.df.columns)[3:], index=126)
+            'Y-axis:', list(be.df.columns)[3:], index=126)
     with col2:
         utils.add_empty_lines(6)
-        size_selected = st.selectbox('size:', ['population', 'gdp'], index=0)
+        size_selected = st.selectbox('Circle size:', ['population', 'gdp'], index=0)
         color_selected = st.selectbox(
-            'color by:', ['continent', 'country'], index=0)
+            'Color by:', ['continent', 'country'], index=0)
     with col3:
         hover = '%{country}<br>X: %{x:.2f} <br>Y: %{y:.2f}'
         be.create_scatter_plot(x=x_selected, y=y_selected, color=color_selected,
@@ -191,12 +190,12 @@ with st.container():
 #plotting the choropleth model
 with st.container():
     st.subheader("Choropleth and Line Plots")
-    st.write("Choropleth plots are great to visualize data on maps. In this section you can choose any of the parameters of the dataset and visualize the change across the years. To further aid your understanding, you can select various countries to compare using the line charts.")
+    st.write("Choropleth plots are a great way to visualize data on maps. In this section you can choose any of the parameters of the dataset and visualize the change across the years. To further aid your understanding, you can select various countries to compare using the line plot.")
     col1, col2 = st.columns([2, 2])
     with col1:
-        y_map = st.selectbox('color-map:', list(be.df.columns)[3:], index=4)
+        y_map = st.selectbox('Select focus data for the map:', list(be.df.columns)[3:], index=4)
     with col2:
-        countries_selected = st.multiselect('select country', list(
+        countries_selected = st.multiselect('Select country(s) for the line plot', list(
             be.df['country'].unique()), default=['World'])
 
     col2, col3 = st.columns([2, 2])
@@ -216,12 +215,12 @@ with st.container():
     c1, c2 = st.columns([1, 2])
 
     with c1:
-        st.write("In this section you will be able to visualize the data using treemaps. Treemap charts visualize hierarchical data using nested rectangles. To control the size and color of the rectangles, please tune the parameters below. We have also decoupled the year parameter for this chart.")
+        st.write("In this section you can visualize the data using treemaps. Treemap charts visualize hierarchical data using nested rectangles. To control the size and color of the rectangles tune the parameters below. We have also decoupled the year parameter for this chart.")
         box_size = st.selectbox(
-            'tree-size:', list(be.df.columns)[3:], index=49)
+            'Box size:', list(be.df.columns)[3:], index=49)
         box_color = st.selectbox(
-            'tree-color:', list(be.df.columns)[3:], index=127)
-        year_box = st.selectbox('tree-year:', list(range(2010, 2019)), index=8)
+            'Box color:', list(be.df.columns)[3:], index=127)
+        year_box = st.selectbox('Year:', list(range(2010, 2019)), index=8)
     with c2:
         be.create_tree_plot(box_color, box_size, year_box)
 
