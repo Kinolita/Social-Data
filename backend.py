@@ -34,24 +34,25 @@ def format_labels(fig):
     return fig
 
 
-def create_scatter_plot(x, y, year_min=MIN_YEAR):
-    _df = df[[x, y, 'continent', 'year', 'population', 'country']]
+def create_scatter_plot(x, y, hover, color='continent', size='population', year_min=MIN_YEAR):
+    _df = df[[x, y, size, color, 'year', 'iso_code']]
     _df = _df[_df['year'] >= year_min]
     _df.dropna(inplace=True)
     fig = px.scatter(
         _df, x=x, y=y,
-        color='continent',
-        size="population",
+        color=color,
+        size=size,
         size_max=45,
         log_x=True, log_y=True,
-        hover_name='country',
+        hover_name='iso_code',
         animation_frame='year',
         title=f"{utils.get_label(LABELS, y)} <br>vs {utils.get_label(LABELS, x)}"
 
     )
 
     fig = get_last_frame(fig)
-    # fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
+    fig.update_traces(hovertemplate=hover) #
+
 
     return st.plotly_chart(format_labels(fig), use_container_width=True)
 
@@ -59,13 +60,17 @@ def create_scatter_plot(x, y, year_min=MIN_YEAR):
 
 def choropleth_plot(y, year_min=MIN_YEAR):
     _df = df[df['year'] >= year_min]
+    _df = _df[(_df['country'] != 'World') & (_df['country'] != 'World') & (_df['country'] != 'Asia Pacific') & (_df['country'] != 'OECD') & (_df['country'] != 'CIS') & (_df['country'] != 'Middle East') & (_df['country'] != 'Non-OECD')]
     fig = px.choropleth(
-        _df.sort_values('year'), locations="iso_code",
+        _df.sort_values('year'),
+        locations="iso_code",
         color=y,
         hover_name="country",
-        color_continuous_scale=px.colors.sequential.Blues,
-        animation_frame='year'
+        color_continuous_scale='RdBu_r',
+        range_color=[np.min(_df[y]), np.max(_df[y])],
+        animation_frame='year',
     )
+
 
     fig.update_layout(
         title_text=utils.get_label(LABELS, y),
@@ -78,7 +83,7 @@ def choropleth_plot(y, year_min=MIN_YEAR):
     )
 
     fig = get_last_frame(fig)
-    #fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    # fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     return st.plotly_chart(format_labels(fig), use_container_width=True)
 
 
@@ -122,13 +127,12 @@ def create_line_plot(y='co2_per_capita', year_min=MIN_YEAR, country_filt=CONTINE
 
 
 
-def create_tree_plot(x, y):
-    _df = df.query('year == 2018')[[y, x, 'iso_code', 'country', 'population', 'continent', 'gdp', 'renewables_energy_per_capita']].dropna()
+def create_tree_plot(x, y, year=2018):
+    _df = df.query(f'year == {year}')[[y, x, 'iso_code', 'country', 'continent']].dropna()
     fig = px.treemap(_df, path=[px.Constant("world"), 'continent', 'country'], values=y,
-                     color=x, hover_data=['iso_code'],
-                     color_continuous_scale='RdBu_r',
+                     color=x, color_continuous_scale='RdBu_r',
                      )
-    fig.update_traces(hovertemplate='<b>%{label} </b> <br>Fossil Energy: %{color:.2f}% <br>CO2 per capita: %{value:.2f}') #
+    fig.update_traces(hovertemplate='<b>%{label} </b> <br>Box Color: %{color:.2f} <br>Box Size: %{value:.2f}') #
 
     # fig.update_layout(
     #     hoverlabel=dict(
@@ -234,7 +238,7 @@ def create_paris_agreement_nations():
 
 
 def create_tree_plot_window(x, y, year, window_size, hover, reverse=False):
-    _df = df.query(f'year in {[year - window_size, year]}')[[y, x, 'iso_code', 'country', 'population', 'continent', 'gdp', 'renewables_energy_per_capita', 'year']].dropna()
+    _df = df.query(f'year in {[year - window_size, year]}')[[y, x, 'iso_code', 'country', 'continent', 'year']].dropna()
     _df.set_index(['continent', 'country'], inplace=True)
 
     _df_old = _df[_df['year'] == year - window_size]
