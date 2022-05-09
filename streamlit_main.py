@@ -6,7 +6,7 @@ import seaborn as sns
 import backend as be
 import utils as utils
 
-# st.set_page_config(page_title="Final Project • 02806",layout='wide')
+st.set_page_config(page_title="Final Project • 02806",layout='wide')
 
 st.markdown("<h1><center>Welcome to the project website for <br> Social Data Analysis and Visualization (02806)</center></h1>",
             unsafe_allow_html=True)
@@ -26,7 +26,7 @@ with st.container():
 data1 = "https://github.com/owid/energy-data"
 data2 = "https://github.com/owid/co2-data"
 rep = "https://github.com/Kinolita/Social-Data"
-nb = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+nb = "https://github.com/Kinolita/Social-Data/blob/main/helper_notebook.ipynb"
 st.write("Source 1: [Data on Energy by our World in Data](%s)" % data1)
 st.write("Source 2: [Data on CO2 and greenhouse gas emissions by Our World in Data](%s)" % data2)
 st.write("Links to our [repository](%s) and our [explainer notebook](%s)." % (rep, nb))
