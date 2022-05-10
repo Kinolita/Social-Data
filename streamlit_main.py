@@ -6,7 +6,7 @@ import seaborn as sns
 import backend as be
 import utils as utils
 
-# st.set_page_config(page_title="Final Project • 02806",layout='wide')
+st.set_page_config(page_title="Final Project • 02806",layout='wide')
 
 st.markdown("<h1><center>Welcome to the project website for <br> Social Data Analysis and Visualization (02806)</center></h1>",
             unsafe_allow_html=True)
