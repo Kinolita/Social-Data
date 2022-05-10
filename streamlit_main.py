@@ -31,31 +31,23 @@ st.write("Source 1: [Data on Energy by our World in Data](%s)" % data1)
 st.write("Source 2: [Data on CO2 and greenhouse gas emissions by Our World in Data](%s)" % data2)
 st.write("Links to our [repository](%s) and our [explainer notebook](%s)." % (rep, nb))
 
+utils.add_empty_lines(4)
 
 """
-With the reduction of rainforests and the ozone layer and the increasingly drastic changes in our climate, the world found it important 
-to create an international treaty in 2016 called the Paris Agreement. This agreement, which was adopted by 196 countries, aims to limit global 
-warming by controlling and reducing greenhouse gas emissions as soon as possible. While the actions and progress of each country are not required to 
-be transparent until 2024, low and zero-carbon solutions and carbon neutrality targets are becoming much more common. But while it appears that 
-countries are making an effort to honor the agreements and work towards carbon neutrality, what is the actual progress to date?
+With the reduction of rainforests and the ozone layer and the increasingly drastic changes in our climate, the world found it important to create an international treaty in 2016 called the Paris Agreement. This agreement, which was adopted by 196 countries, aims to limit global warming by controlling and reducing greenhouse gas emissions as soon as possible. While the actions and progress of each country are not required to be transparent until 2024, low and zero-carbon solutions and carbon neutrality targets are becoming much more common. But while it appears that countries are trying to honor the agreements and work towards carbon neutrality, what is the actual progress to date?
 """
 
 """
-Below on the left, we can see the average change in temperature of the earth over the last two centuries and how it has risen consistently and significantly since 1980. 
-On the right we see a display of global CO2 emissions since 1900 by continent. 
-It is interesting to note that the rise in emissions coincides with the rise in global temperatures.
+Below on the left, we can see the average change in temperature of the earth over the last two centuries and how it has risen consistently and significantly since 1980. On the right we see a display of global CO2 emissions since 1900 by continent. It is interesting to note that the rise in emissions coincides with the rise in global temperatures.
 """
 
 be.plot_intro_plot()
 
 """
-In Europe and specifically Denmark we hear a lot about climate changes and how we as countries should
-strive towards drastically lowering our CO2 emissions. While there is a general concensus in the population -
-at least in Denmark - that this is a huge issue, we often are led to believe something else by our politicians.
-It can be very hard to fact check what politicians, global companies etc. are saying in regards to the climate,
-since their statements are often biased by their subjective goals. Because of that, this article will help
-create transparency towards how the actual situation and development have been in regards to lowering CO2 emissions
-and how far have we come. We provide the facts, but its up to you to interpret them!"""
+In Europe and specifically Denmark we hear a lot about climate changes and how we as countries should strive towards drastically lowering our CO2 emissions. While there is a consensus in the population - at least in Denmark - that this is a huge issue, we often are led to believe something else by our politicians. It can be very hard to fact check what politicians, global companies etc. are saying regarding the climate, since their statements are often biased by their subjective goals. Because of that, this article will help create transparency towards how the actual situation and development have been regarding lowering CO2 emissions and how far have we come. We provide the facts, but it’s up to you to interpret them!
+"""
+
+utils.add_empty_lines(4)
 
 with st.container():
     col_t1, col_t2 = st.columns([2,1])
@@ -66,61 +58,42 @@ with st.container():
     with col_t2:
         utils.add_empty_lines(8)
         """
-        Here we can see the distribution of CO2 emissions in the world in 2016. 
-        The major source of greenhouse gasses is clearly in the energy sector with the main contributers of this being: industry, buildings, and transport.
-        You can try and click around to see what the different sectors consist of.
+        Here we can see the distribution of CO2 emissions in the world in 2016. The major source of greenhouse gasses is clearly in the energy sector with the main contributors of this being: industry, buildings, and transport. You can try and click around to see what the different sectors consist of.
         """    
 
 with st.container():
-    col_t1, col_t2 = st.columns([1, 2])
+    col_t1, col_t2 = st.columns([3, 3])
     x = 'fossil_share_energy'
-    y = 'co2'
+    # y =
     with col_t1:
-        utils.add_empty_lines(4)
+        utils.add_empty_lines(7)
 
         """
-        If we take a look at the same emissions per country, we can see which ones are the largest contributers to this. 
-        Of course some countries will be larger contributers than others simply due to their industry levels or population. 
-        These countries will be under a natural spotlight to improve as they could also have the largest contribution to the reduction of 
-        global warming. This being said, they should not be expected to carry the responsibility of this for the entire world. Every little bit helps. 
+        If we look at the same emissions per country, we can see which ones are the largest contributors to this. Of course, some countries will be larger contributors than others simply due to their industry levels or population. These countries will be under a natural spotlight to improve as they could also have the largest contribution to the reduction of global warming. They should not be expected to carry the responsibility of this for the entire world. Every little bit helps.
+        
 
-        Here we can see the amount of carbon dioxide emissions represented by sized boxes for each country and continent. 
-        The color of each box indicates how much of those emissions are the result of fossil fuels.
+        Here we can see a strong correlation between the amount of carbon dioxide emissions and the total energy consumption from fossil fuels (coal, gas, and oil) of each country, sized by the population. By this metric, we can see what we expect: countries with large populations have the largest carbon footprint. However, when we normalize the data by population (radio box in top right), we can see a different story. It's important to keep this distinction in mind as it can be very relevant when looking for the real culprits of global warming.
         """
+
         # st.write(f">Size of the box: {utils.get_label(be.LABELS, y)}")
         # st.write(f">Coloring: {utils.get_label(be.LABELS, x)}")
 
     with col_t2:
-        be.create_tree_plot(x=x, y=y)
+        st.write('<style>div.row-widget.stRadio >div{flex-direction:row;justify-content: right;}</style>', unsafe_allow_html=True)
+        button = st.radio('', ['total', 'per capita'], index=0)
 
-with st.container():
-    col2, col3 = st.columns(2)
+        if button != 'per capita':
+            y = 'co2'
+            x = 'fossil_fuel_consumption'
+        else:
+            y = 'co2_per_capita'
+            x = 'fossil_energy_per_capita'
 
-    with col2:
-        be.create_tree_plot(x=x, y="co2_per_capita")
-    with col3:
-        utils.add_empty_lines(8)
-        """
-        If we take this same data and equalize the box sizes to emissions per capita we see a much different story 
-        where countries that don't necessarily have a large impact globally have a very large impact per citizen. 
+        hover = '%{customdata[0]} <br>X: %{x:.2f} <br>Y: %{y:.2f}'
+        be.create_scatter_plot(x=x, y=y, color='continent',
+                               size='population', year_min=2000, hover=hover, animate=False)
 
-        It's important to keep this distinction in mind as it can be very relevant. 
-        Many politicians can be shown conflicting or misleading data which is then filtered out to the masses.
-        """
-
-with st.container():
-    col2, col3 = st.columns(2)
-
-    with col2:
-        utils.add_empty_lines(8)
-        """
-        In this graph we can see the general trend of all the countries of the world in regards to their production 
-        of CO2 in tonnes per person. The world is highlighted, and while there have been both improvements and unimprovements in various countries,
-        it's clear to see that the general trend so far has not changed. This tells us that while countries may be beginning to implement their 
-        low and zero-carbon solutions we still have a long way to go before we see the fruits of our labor.
-        """
-    with col3:
-        be.create_lineplot_change(y="co2_per_capita", current_year=2020, window_size=10)
+utils.add_empty_lines(8)
 
 with st.container():
     col2, col3 = st.columns(2)
@@ -132,20 +105,66 @@ with st.container():
         utils.add_empty_lines(8)
 
         """
-        In this graph we can see how much each energy type consists of the yearly production in relation to each other. 
-        For instance its easy to spot that coal and oil are by far the biggest contributers to energy consumption. 
-        The years are at the x-axis while the y-axis represents the energy in Terawatt per hours.
+        So, what are the alternatives?
+        
+        To understand humanities response to this growing crisis, we can look at the yearly worldwide energy consumption by source, shown on the left, and try to see if there have been changes in recent times.
+        Besides the obvious dependency on fossil fuels, we can see an increasing trend towards renewable energy sources. 
+        The adoption is still very slow, certainly not helped by worldwide pandemics and other troubles, however, renewable energy sourcing is becoming cheaper and more efficient [3,4] so hopefully it will attract more traction.
         """
 
+
+utils.add_empty_lines(8)
+
+with st.container():
+    col2, col3 = st.columns([2,3])
+
+    with col2:
+        utils.add_empty_lines(5)
+        """
+        Let us now see which countries the ones are opting to go green!
+        
+        The interactive tree plot on the right shows the top CO2 emitters per capita for every continent, colored by the percent of change in renewable energy adoption from 2016 (Paris Agreement) to 2020 (latest data).
+        
+        Somewhat of a dire picture that the true polluters are not yet moving in the right direction when it comes to renewable energy sourcing. Europe in general tends to score highest, thanks to countries such as Denmark, who are frontrunners in moving towards renewables.
+        
+        """
+    with col3:
+        hover = '<b>%{label} </b> <br>Renewables Change: %{color:.2f}% <br>CO2 (per cap): %{value:.2f} tonnes/pp'
+        be.create_tree_plot_window(x='renewables_share_energy', y="co2_per_capita", year=2020, window_size=4, hover=hover, reverse=True)
+
+utils.add_empty_lines(8)
+
+with st.container():
+    col2, col3 = st.columns([1,2])
+
+    with col2:
+        utils.add_empty_lines(6)
+        """
+        Finally, in this graph we can see the general trend of all the countries of the world when it comes to moving away from fossil fuels and turning to renewables since 2016. The World average is highlighted, and while there have been both improvement and unimprovement in various countries, it's clear to see that the general trend so far has not changed when it comes to fossil fuels. Nevertheless, time is still on our side, and it is encouraging to see that some countries have already taken big steps towards cleaner energy sourcing.
+        """
+    with col3:
+        be.create_lineplot_change_subplots(current_year=2020, window_size=4)
+
+
+
+st.subheader("References")
+st.write("[1] Paris Agreement Status: https://treaties.un.org/pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&clang=_en#2")
+st.write("[2] Our World in Data: Emissions by Sector: https://ourworldindata.org/emissions-by-sector")
+st.write("[3] Onshore Wind efficiency: https://ourworldindata.org/grapher/onshore-wind-lcoe-vs-wind-consumption")
+st.write("[4] Solar PV costs: https://ourworldindata.org/grapher/solar-pv-system-costs?country=~USA")
+
+
+
+
+
+
+
 #Dashboard
+utils.add_empty_lines(8)
 st.subheader('Try it yourself!')
 
 """
-At this point we have given a brief but thorough introduction to some of the data that can be found on CO2 emissions,
-energy consumption, and the paris agreement in general. As we started by saying: We will only provide the data, its up to
-you to evaluate and interpret the numbers. Since we have shown some plots its now time for you to "play" with the data yourself. 
-In the following section we have made some generic graphs where you will have the opporunity to change the variables for the
-plots to examine the data yourself. Maybe you will find something interesting!
+At this point we have given a brief but thorough introduction to some of the data that can be found on CO2 emissions, energy consumption, and the Paris Agreement in general. As we started by saying: We will only provide the data, it’s up to you to evaluate and interpret the numbers. Since we have shown some plots it’s now time for you to "play" with the data yourself. In the following section we have made some generic graphs where you will have the opportunity to change the variables for the plots to examine the data yourself. Maybe you will find something interesting!
 """
 
 
@@ -182,7 +201,7 @@ with st.container():
         color_selected = st.selectbox(
             'Color by:', ['continent', 'country'], index=0)
     with col3:
-        hover = '%{country}<br>X: %{x:.2f} <br>Y: %{y:.2f}'
+        hover = '%{customdata[0]} <br>X: %{x:.2f} <br>Y: %{y:.2f}'
         be.create_scatter_plot(x=x_selected, y=y_selected, color=color_selected,
                                size=size_selected, year_min=year_selected-window_size, hover=hover)
 
